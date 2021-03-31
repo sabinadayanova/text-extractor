@@ -3,14 +3,20 @@
 ### **Extractor**
 
 Responsibility: extracting text.
-Extracting consists of determining file extension and converting file to text using special tools for a
+Extracting consists of determining file type and converting file to text using special tools for a
 particular file type.
 
 Collaboration: `Parser`, `Converter`, `FileType`.
 
+### **ExtractorRunner**
+
+Responsibility: orchestrating `Extractor` class when processing series of files.
+
+Collaboration: `Extractor`.
+
 ### **Parser**
 
-Responsibility: determining file extension.
+Responsibility: determining file type.
 During first steps we aim to support `.pdf`, `.docx` and `.rtf` formats.
 
 Collaboration: `FileType`.
@@ -24,4 +30,4 @@ Depending on the file type there are several classes that implement this interfa
 
 ### **FileType (Enum)**
 
-Responsibility: denoting file extensions -- `PDF`, `DOCX`, `RTF` so far.
+Responsibility: denoting file types -- `PDF`, `DOCX`, `RTF` so far.
