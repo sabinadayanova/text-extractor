@@ -1,31 +1,33 @@
+package com.sabina.textractor;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import javax.swing.text.BadLocationException;
+
 public class Extractor {
 
   private final Parser parser;
-  private final Converter converter;
 
   public Extractor() {
     parser = new Parser();
-    converter = new Converter();
   }
 
-  public String extract(String filename) {
-    FileType fileType = parser.parse(filename);
-    return converter.convert(filename, fileType);
-  }
-
-  public String badExtract(String filename) {
+  public String extract(String filename) throws IOException, BadLocationException {
     FileType fileType = parser.parse(filename);
     String result;
     switch (fileType) {
       case PDF:
-        BadConverter badConverter = new PdfBadConverter();
-        result = badConverter.convert(filename);
+        result = new PdfConverter().convert(filename);
+        break;
+      case DOCX:
+        result = new DocxConverter().convert(filename);
         break;
       case RTF:
-        result = "kick";
+        result = new RtfConverter().convert(filename);
         break;
       default:
-        result = "kek";
+        System.out.println("unsupported file type");
+        result = "";
     }
     return result;
   }
