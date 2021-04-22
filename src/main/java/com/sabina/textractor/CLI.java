@@ -2,8 +2,11 @@ package com.sabina.textractor;
 import com.beust.jcommander.JCommander;
 
 import javax.swing.text.BadLocationException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import java.util.Arrays;
 
 public class CLI {
 
@@ -14,7 +17,16 @@ public class CLI {
                 .addObject(consoleArgs)
                 .build()
                 .parse(args);
-        String[] result = new ExtractorRunner().run(consoleArgs.files);
-        System.out.println(result);
+        new ExtractorRunner().run(consoleArgs.files,
+                Arrays.stream(consoleArgs.files)
+                        .map(item -> {
+                            try {
+                                return new FileInputStream(item);
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            }
+                            return null;
+                        })
+                        .toArray(FileInputStream[]::new), System.out);
     }
 }
