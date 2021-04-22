@@ -1,7 +1,11 @@
 package com.sabina.textractor;
 
-import java.io.FileNotFoundException;
+import com.sabina.textractor.converters.DocxConverter;
+import com.sabina.textractor.converters.PdfConverter;
+import com.sabina.textractor.converters.RtfConverter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import javax.swing.text.BadLocationException;
 
 public class Extractor {
@@ -12,24 +16,22 @@ public class Extractor {
     parser = new Parser();
   }
 
-  public String extract(String filename) throws IOException, BadLocationException {
+  public void extract(String filename, InputStream is,  OutputStream os) throws IOException, BadLocationException {
     FileType fileType = parser.parse(filename);
-    String result;
     switch (fileType) {
       case PDF:
-        result = new PdfConverter().convert(filename);
+        new PdfConverter().convert(is, os);
         break;
       case DOCX:
-        result = new DocxConverter().convert(filename);
+        new DocxConverter().convert(is, os);
         break;
       case RTF:
-        result = new RtfConverter().convert(filename);
+        new RtfConverter().convert(is, os);
         break;
       default:
         System.out.println("unsupported file type");
-        result = "";
     }
-    return result;
+    is.close();
   }
 
 }
