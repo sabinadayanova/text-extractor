@@ -16,7 +16,8 @@ public class Extractor {
     parser = new Parser();
   }
 
-  public void extract(String filename, InputStream is,  OutputStream os) throws IOException, BadLocationException {
+  public void extract(String filename, InputStream is,  OutputStream os)
+      throws IOException, BadLocationException {
     FileType fileType = parser.parse(filename);
     switch (fileType) {
       case PDF:
@@ -31,7 +32,5 @@ public class Extractor {
       default:
         System.out.println("unsupported file type");
     }
-    is.close();
   }
-
 }
