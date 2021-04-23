@@ -10,7 +10,6 @@ import java.util.Arrays;
 
 public class CLI {
 
-
     public static void main(String... args) throws IOException, BadLocationException {
         ConsoleArgs consoleArgs = new ConsoleArgs();
         JCommander.newBuilder()

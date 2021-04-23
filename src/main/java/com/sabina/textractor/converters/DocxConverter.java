@@ -13,7 +13,6 @@ public class DocxConverter implements Converter {
   @Override
   public void convert(InputStream is, OutputStream os) throws IOException {
     XWPFDocument document = new XWPFDocument(is);
-    //XWPFDocument doc = new XWPFDocument(new ByteArrayInputStream(file));
     XWPFWordExtractor wordExtractor = new XWPFWordExtractor(document);
     String text = wordExtractor.getText();
     wordExtractor.close();
