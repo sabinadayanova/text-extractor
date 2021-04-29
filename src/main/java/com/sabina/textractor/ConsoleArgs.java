@@ -8,24 +8,23 @@ import com.beust.jcommander.Parameter;
 public class ConsoleArgs {
 
   @Parameter(
-      names = {"--files", "-f"},
       description = "File names",
       //listConverter = FileListConverter.class,
       required = false
   )
-  public String files;
+  public List<String> files = new ArrayList<>();
 
   @Parameter(
-      names = {"-dir"},
+      names = {"--dir"},
       description = "File directory",
       required = false
   )
-  public String directory = "-1";
+  public String directory = null;
 
   @Parameter(
-      names = {"-o"},
+      names = {"-o", "--output"},
       description = "Output",
-      required = false
+      required = true
   )
-  public String output = "-1";
+  public String output = null;
 }

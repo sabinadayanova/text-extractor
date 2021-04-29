@@ -3,13 +3,10 @@ package com.sabina.textractor;
 import com.beust.jcommander.JCommander;
 
 import com.beust.jcommander.Parameter;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.stream.Stream;
 import javax.swing.text.BadLocationException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -25,31 +22,29 @@ public class CLI {
         .addObject(consoleArgs)
         .build()
         .parse(args);
-    String[] files;
-    if (!consoleArgs.directory.equals("-1")) {
+    List<String> files = new ArrayList<>();
+    if (consoleArgs.directory != null) {
       File dir = new File(consoleArgs.directory);
       String[] filesOnly = dir.list();
-      files = new String[filesOnly.length];
-      int i = 0;
+      assert filesOnly != null;
       for (String f : filesOnly) {
-        files[i] = consoleArgs.directory + f;
+        files.add(consoleArgs.directory + f);
         System.out.println(f);
-        i++;
       }
     } else {
-      files = new String[]{consoleArgs.files};
+      files = consoleArgs.files;
     }
     OutputStream out;
-    if (consoleArgs.output.equals("-1")) {
+    if (consoleArgs.output.equals("-")) {
       out = System.out;
     } else {
       out = new FileOutputStream(consoleArgs.output);
     }
-    new ExtractorRunner().run(files,
-        Arrays.stream(files)
+    new ExtractorRunner().run(files.toArray(new String[0]),
+        files.stream()
             .map(item -> {
               try {
-                return new FileInputStream((String) item);
+                return new FileInputStream(item);
               } catch (FileNotFoundException e) {
                 e.printStackTrace();
               }
