@@ -37,7 +37,7 @@
           <descriptorRefs>jar-with-dependencies</descriptorRefs>
           <archive>
             <manifest>
-              <mainClass>com.sabina.textractor.Main</mainClass>
+              <mainClass>com.sabina.textractor.CLI</mainClass>
             </manifest>
           </archive>
         </configuration>
@@ -59,7 +59,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>Main</mainClass>
+              <mainClass>CLI</mainClass>
             </manifest>
           </archive>
         </configuration>
