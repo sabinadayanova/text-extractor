@@ -10,6 +10,7 @@ public class ConsoleArgs {
   @Parameter(
       names = {"--files", "-f"},
       description = "File names",
+      //listConverter = FileListConverter.class,
       required = false
   )
   public String files;
