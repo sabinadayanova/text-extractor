@@ -17,8 +17,8 @@ public class Main {
         .addObject(consoleArgs)
         .build()
         .parse(args);
-    new ExtractorRunner().run(consoleArgs.files,
-        Arrays.stream(consoleArgs.files)
+    new ExtractorRunner().run(new String[]{consoleArgs.files},
+        Arrays.stream(new String[]{consoleArgs.files})
             .map(item -> {
               try {
                 return new FileInputStream(item);
