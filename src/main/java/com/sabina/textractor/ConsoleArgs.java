@@ -9,8 +9,7 @@ public class ConsoleArgs {
 
   @Parameter(
       description = "File names",
-      //listConverter = FileListConverter.class,
-      required = false
+      required = true
   )
   public List<String> files = new ArrayList<>();
 

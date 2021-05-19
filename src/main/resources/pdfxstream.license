@@ -9,9 +9,9 @@
 ### - Fallback: use com.snowtide.PDF.loadLicense("path/to/pdfxstream.license")
 ###   to explicitly load a license file from an arbitrary path
 name=sfdayanova@edu.hse.ru (National Research University Higher School of Economics)
-type=Evaluation
+type=Server
 product=PDFxStream v3
 order_number=N/A
-expiration_dt=D:20210515
+expiration_dt=D:20210831
 features=All
-key=531869bd0d18c792b1d0ce6f1822497c
+key=41b4e1dc30d8c0ae812093416a54762c
