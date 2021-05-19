@@ -16,18 +16,18 @@ public class Extractor {
     parser = new Parser();
   }
 
-  public void extract(String filename, InputStream is,  OutputStream os)
+  public void extract(String filename, InputStream is,  OutputStream os, FileCache fileCache, String hash)
       throws IOException, BadLocationException {
     FileType fileType = parser.parse(filename);
     switch (fileType) {
       case PDF:
-        new PdfConverter().convert(is, os);
+        new PdfConverter().convert(is, os, fileCache, hash);
         break;
       case DOCX:
-        new DocxConverter().convert(is, os);
+        new DocxConverter().convert(is, os, fileCache, hash);
         break;
       case RTF:
-        new RtfConverter().convert(is, os);
+        new RtfConverter().convert(is, os, fileCache, hash);
         break;
       default:
         System.out.println("unsupported file type");
