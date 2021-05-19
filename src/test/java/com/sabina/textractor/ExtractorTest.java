@@ -84,7 +84,7 @@ public class ExtractorTest {
 
   @Test
   public void testDemo() {
-    String filename = "/file1.docx";
+    String filename = "/file2.pdf";
     InputStream is1 = getClass().getResourceAsStream(filename);
     InputStream is2 = getClass().getResourceAsStream(filename);
 
