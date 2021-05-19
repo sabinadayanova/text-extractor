@@ -51,7 +51,7 @@ public class FileCache {
   }
 
   public void write() throws URISyntaxException, FileNotFoundException {
-    String filename = "/home/sabina/go/src/github.com/java/text-extractor/src/main/resources/cache.json";
+    String filename = "src/main/resources/cache.json";
     File file = new File(filename);
     OutputStream os = new FileOutputStream(file);
     String json = gson.toJson(cache);
