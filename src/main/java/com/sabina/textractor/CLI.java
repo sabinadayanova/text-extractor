@@ -10,8 +10,21 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 public class CLI {
+  static Logger LOGGER;
+
+  static {
+    try (FileInputStream ins = new FileInputStream("/log.config")) {
+      LogManager.getLogManager().readConfiguration(ins);
+      LOGGER = Logger.getLogger(ExtractorRunner.class.getName());
+    } catch (Exception ignore) {
+      ignore.printStackTrace();
+    }
+  }
 
   public static void main(String... args) throws IOException {
     ConsoleArgs consoleArgs = new ConsoleArgs();
@@ -47,6 +60,7 @@ public class CLI {
               try {
                 return new FileInputStream(item);
               } catch (FileNotFoundException e) {
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
                 e.printStackTrace();
               }
               return null;
@@ -57,6 +71,7 @@ public class CLI {
               try {
                 return new FileInputStream(item);
               } catch (FileNotFoundException e) {
+                LOGGER.log(Level.WARNING, e.getMessage(), e);
                 e.printStackTrace();
               }
               return null;

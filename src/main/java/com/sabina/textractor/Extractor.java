@@ -12,11 +12,14 @@ public class Extractor {
 
   private final Parser parser;
 
+
   public Extractor() {
     parser = new Parser();
   }
 
-  public void extract(String filename, InputStream is,  OutputStream os, FileCache fileCache, String hash)
+
+  public void extract(String filename, InputStream is, OutputStream os, FileCache fileCache,
+      String hash)
       throws IOException, BadLocationException {
     FileType fileType = parser.parse(filename);
     switch (fileType) {
