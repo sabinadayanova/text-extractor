@@ -8,10 +8,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.security.DigestInputStream;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 import org.junit.Test;
 
 public class ExtractorTest {
@@ -80,17 +76,5 @@ public class ExtractorTest {
     assertThrows(IllegalArgumentException.class,
         () ->  new ExtractorRunner().run(new String[]{filename}, new InputStream[] {is},
             new InputStream[] {dis},  os));
-  }
-
-  @Test
-  public void testDemo() {
-    String filename = "/file2.pdf";
-    InputStream is1 = getClass().getResourceAsStream(filename);
-    InputStream is2 = getClass().getResourceAsStream(filename);
-
-    OutputStream os = System.out;
-
-    var er = new ExtractorRunner();
-    er.run(new String[]{filename}, new InputStream[] {is1}, new InputStream[] {is2}, os);
   }
 }

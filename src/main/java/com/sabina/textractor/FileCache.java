@@ -1,7 +1,7 @@
 package com.sabina.textractor;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,18 +20,19 @@ public class FileCache {
   private HashMap<String, String> cache;
   private final Gson gson;
 
-  private FileCache() {
+  private FileCache() throws IOException {
     gson = new GsonBuilder().create();
-    String filename = "/cache.json";
-    InputStream is = Main.class.getResourceAsStream(filename);
-    assert is != null;
+    String filename = "cache.json";
+    File file = new File(filename);
+    file.createNewFile();
+    InputStream is = new FileInputStream(file);
     cache = gson.fromJson(new InputStreamReader(is), HashMap.class);
     if (cache == null) {
       cache = new HashMap<>();
     }
   }
 
-  public static FileCache getInstance() {
+  public static FileCache getInstance() throws IOException {
     if (fileCache == null) {
       fileCache = new FileCache();
     }
@@ -50,16 +51,12 @@ public class FileCache {
     return cache != null && cache.containsKey(hash);
   }
 
-  public void write() throws URISyntaxException, FileNotFoundException {
-    String filename = "src/main/resources/cache.json";
+  public void write() throws URISyntaxException, IOException {
+    String filename = "cache.json";
     File file = new File(filename);
     OutputStream os = new FileOutputStream(file);
     String json = gson.toJson(cache);
-    try {
-      IOUtils.write(json, os, StandardCharsets.UTF_8.name());
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    IOUtils.write(json, os, StandardCharsets.UTF_8.name());
   }
 
 }

@@ -24,9 +24,10 @@ public class CLI {
     if (consoleArgs.directory != null) {
       File dir = new File(consoleArgs.directory);
       String[] filesOnly = dir.list();
+      // TODO incorrect files
       assert filesOnly != null;
       for (String f : filesOnly) {
-        files.add(consoleArgs.directory + f);
+        files.add(consoleArgs.directory + "/" + f);
         System.out.println(f);
       }
     } else {
@@ -34,7 +35,7 @@ public class CLI {
     }
 
     OutputStream out;
-    if (consoleArgs.output.equals("-")) {
+    if (consoleArgs.output == null || consoleArgs.output.equals("-")) {
       out = System.out;
     } else {
       out = new FileOutputStream(consoleArgs.output);
