@@ -100,9 +100,9 @@ public class ExtractorTest {
   public void testCLI() {
     try {
       CLI cli = new CLI();
-      String[] args = new String[] {"/home/sabina/go/src/github.com/java/text-extractor/src/main/resources/file3.rtf", "-o", "output.txt"};
+      String[] args = new String[] {"\\home\\sabina\\go\\src\\github.com\\java\\text-extractor\\src\\main\\resources\\file3.rtf", "-o", "output.txt"};
       cli.main(args);
-      FileReader fr= new FileReader("/output.txt");
+      FileReader fr= new FileReader("output.txt");
       Scanner scan = new Scanner(fr);
       String result = "";
       while (scan.hasNextLine()) {
