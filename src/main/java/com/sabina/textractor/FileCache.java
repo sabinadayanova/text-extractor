@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
@@ -16,17 +15,16 @@ import org.apache.commons.io.IOUtils;
 
 public class FileCache {
 
+  private final String filename = "cache.json";
   private static FileCache fileCache = null;
   private HashMap<String, String> cache;
   private final Gson gson;
 
   private FileCache() throws IOException {
     gson = new GsonBuilder().create();
-    String filename = "cache.json";
     File file = new File(filename);
     file.createNewFile();
-    InputStream is = new FileInputStream(file);
-    cache = gson.fromJson(new InputStreamReader(is), HashMap.class);
+    cache = gson.fromJson(new InputStreamReader(new FileInputStream(file)), HashMap.class);
     if (cache == null) {
       cache = new HashMap<>();
     }
@@ -52,9 +50,7 @@ public class FileCache {
   }
 
   public void write() throws URISyntaxException, IOException {
-    String filename = "cache.json";
-    File file = new File(filename);
-    OutputStream os = new FileOutputStream(file);
+    OutputStream os = new FileOutputStream(filename);
     String json = gson.toJson(cache);
     IOUtils.write(json, os, StandardCharsets.UTF_8.name());
   }
