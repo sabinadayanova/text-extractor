@@ -96,7 +96,7 @@ public class ExtractorTest {
     er.run(new String[]{filename}, new InputStream[] {is1}, new InputStream[] {is2}, os);
   }
 
-  @Test
+  /*@Test
   public void testCLI() {
     try {
       CLI cli = new CLI();
@@ -113,5 +113,5 @@ public class ExtractorTest {
     } catch (IOException e) {
       e.printStackTrace();
     }
-  }
+  }*/
 }
