@@ -96,11 +96,11 @@ public class ExtractorTest {
     er.run(new String[]{filename}, new InputStream[] {is1}, new InputStream[] {is2}, os);
   }
 
-  /*@Test
+  @Test
   public void testCLI() {
     try {
       CLI cli = new CLI();
-      String[] args = new String[] {"/file3.rtf", "-o", "output.txt"};
+      String[] args = new String[] {"/home/sabina/go/src/github.com/java/text-extractor/src/main/resources/file3.rtf", "-o", "output.txt"};
       cli.main(args);
       FileReader fr= new FileReader("/output.txt");
       Scanner scan = new Scanner(fr);
@@ -113,5 +113,5 @@ public class ExtractorTest {
     } catch (IOException e) {
       e.printStackTrace();
     }
-  }*/
+  }
 }
