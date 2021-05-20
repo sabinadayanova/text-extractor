@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -12,6 +13,7 @@ import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.Scanner;
 import org.junit.Test;
 
 public class ExtractorTest {
@@ -55,7 +57,7 @@ public class ExtractorTest {
         new InputStream[] {dis1, dis2}, os);
     String result = os.toString();
     String trueResult = "Кто прочитал, тот молодец.\n" + "\nКто прочитал, тот молодец.";
-    assertEquals(result, trueResult);
+    assertEquals(trueResult, result);
 
     try {
       if (is1 != null) {
@@ -92,5 +94,24 @@ public class ExtractorTest {
 
     var er = new ExtractorRunner();
     er.run(new String[]{filename}, new InputStream[] {is1}, new InputStream[] {is2}, os);
+  }
+
+  @Test
+  public void testCLI() {
+    try {
+      CLI cli = new CLI();
+      String[] args = new String[] {"/file3.rtf", "-o", "output.txt"};
+      cli.main(args);
+      FileReader fr= new FileReader("/output.txt");
+      Scanner scan = new Scanner(fr);
+      String result = "";
+      while (scan.hasNextLine()) {
+        result += scan.nextLine();
+      }
+      fr.close();
+      assertEquals("You, foul, loathsome, evil, little cockroach.", result);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 }
