@@ -1,6 +1,7 @@
 package com.sabina.textractor;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -12,6 +13,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 import org.apache.commons.io.IOUtils;
 
 public class FileCache {
@@ -23,7 +27,7 @@ public class FileCache {
   private FileCache() {
     gson = new GsonBuilder().create();
     String filename = "/cache.json";
-    InputStream is = Main.class.getResourceAsStream(filename);
+    InputStream is = FileCache.class.getResourceAsStream(filename);
     assert is != null;
     cache = gson.fromJson(new InputStreamReader(is), HashMap.class);
     if (cache == null) {
