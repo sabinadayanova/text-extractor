@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
+import java.util.stream.Collectors;
 
 public class CLI {
 
@@ -20,11 +20,10 @@ public class CLI {
         .build()
         .parse(args);
 
-    List<String> files = new ArrayList<>();
+    ArrayList<String> files = new ArrayList<>();
     if (consoleArgs.directory != null) {
       File dir = new File(consoleArgs.directory);
       String[] filesOnly = dir.list();
-      // TODO incorrect files
       assert filesOnly != null;
       for (String f : filesOnly) {
         files.add(consoleArgs.directory + "/" + f);
@@ -42,7 +41,8 @@ public class CLI {
     }
 
     ExtractorRunner runner = new ExtractorRunner();
-    runner.run(files.toArray(new String[0]),
+    runner.run(
+        files,
         files.stream()
             .map(item -> {
               try {
@@ -52,7 +52,7 @@ public class CLI {
               }
               return null;
             })
-            .toArray(FileInputStream[]::new),
+            .collect(Collectors.toCollection(ArrayList::new)),
         files.stream()
             .map(item -> {
               try {
@@ -62,7 +62,7 @@ public class CLI {
               }
               return null;
             })
-            .toArray(FileInputStream[]::new),
+            .collect(Collectors.toCollection(ArrayList::new)),
         out);
   }
 }

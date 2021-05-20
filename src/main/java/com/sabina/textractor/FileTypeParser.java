@@ -1,8 +1,5 @@
 package com.sabina.textractor;
 
-
-import java.io.File;
-import java.io.IOException;
 import java.util.Locale;
 
 public class FileTypeParser {
@@ -19,7 +16,7 @@ public class FileTypeParser {
     }
 
     if (type == null) {
-      throw new IllegalArgumentException("unknown filetype: + " + lowercaseFilename);
+      throw new IllegalArgumentException("unknown filetype: " + lowercaseFilename);
     }
     return type;
   }

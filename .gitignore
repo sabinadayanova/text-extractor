@@ -16,6 +16,10 @@
 # Target files
 target/
 
+# Cache and output files
+cache.json
+output.txt
+
 # Package Files #
 *.jar
 *.war
