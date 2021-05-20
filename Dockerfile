@@ -11,6 +11,4 @@ RUN mvn -f /home/app/pom.xml clean validate compile package
 #
 FROM openjdk:11-jre-slim
 COPY --from=build /home/app/target/text-extractor-1.0-SNAPSHOT-jar-with-dependencies.jar text-extractor-1.0-SNAPSHOT-jar-with-dependencies.jar
-RUN mkdir -p src/main/resources
-RUN touch src/main/resources/cache.json
 ENTRYPOINT ["java","-jar","text-extractor-1.0-SNAPSHOT-jar-with-dependencies.jar"]

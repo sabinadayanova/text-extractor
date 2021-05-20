@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
 
-public class Parser {
+public class FileTypeParser {
 
   public FileType parse(String filename) {
     FileType type = null;
@@ -19,7 +19,7 @@ public class Parser {
     }
 
     if (type == null) {
-      throw new IllegalArgumentException("unknown filetype");
+      throw new IllegalArgumentException("unknown filetype: + " + lowercaseFilename);
     }
     return type;
   }

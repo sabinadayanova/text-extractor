@@ -8,6 +8,6 @@ import javax.swing.text.BadLocationException;
 
 public interface Converter {
 
-  void convert(InputStream is, OutputStream os, FileCache fileCache, String hash) throws IOException, BadLocationException;
+  String convert(InputStream is) throws IOException, BadLocationException;
 
 }
