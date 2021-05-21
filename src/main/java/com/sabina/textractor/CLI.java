@@ -2,6 +2,7 @@ package com.sabina.textractor;
 
 import com.beust.jcommander.JCommander;
 
+import com.sabina.textractor.exceptions.UserException;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
@@ -48,9 +49,8 @@ public class CLI {
               try {
                 return new FileInputStream(item);
               } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                throw new UserException("File was not found", e);
               }
-              return null;
             })
             .collect(Collectors.toCollection(ArrayList::new)),
         files.stream()
@@ -58,9 +58,8 @@ public class CLI {
               try {
                 return new FileInputStream(item);
               } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                throw new UserException("File was not found", e);
               }
-              return null;
             })
             .collect(Collectors.toCollection(ArrayList::new)),
         out);
