@@ -1,21 +1,37 @@
 package com.sabina.textractor;
 
-import java.io.FileNotFoundException;
+import com.sabina.textractor.exceptions.ExtractionException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.security.DigestInputStream;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import javax.swing.text.BadLocationException;
 import java.security.MessageDigest;
 import org.apache.commons.io.IOUtils;
 
 public class ExtractorRunner {
   private final Extractor extractor = new Extractor();
   private static final byte[] HEX_ARRAY = "0123456789abcdef".getBytes(StandardCharsets.US_ASCII);
+
+  public void run(ArrayList<String> filenames, ArrayList<InputStream> streams, ArrayList<InputStream> disStreams, OutputStream os) {
+    FileCache fileCache = FileCache.getInstance();
+    int len = filenames.size();
+    for (int i = 0; i < len; i++) {
+      String hash = calculateHash(disStreams.get(i), i);
+      if (fileCache.contains(hash)) {
+        try {
+          IOUtils.write(fileCache.get(hash), os, StandardCharsets.UTF_8.name());
+        } catch (IOException e) {
+          throw new ExtractionException("IOException occurred when writing extracted text to the stream", e);
+        }
+      } else {
+        extractor.extract(filenames.get(i), streams.get(i), os, fileCache, hash);
+      }
+    }
+    fileCache.write();
+  }
 
   public static String bytesToHex(byte[] bytes) {
     byte[] hexChars = new byte[bytes.length * 2];
@@ -27,31 +43,16 @@ public class ExtractorRunner {
     return new String(hexChars, StandardCharsets.UTF_8);
   }
 
-  public void run(ArrayList<String> filenames, ArrayList<InputStream> streams, ArrayList<InputStream> disStreams, OutputStream os) {
+  public String calculateHash(InputStream stream, int pos) {
     try {
-      FileCache fileCache = FileCache.getInstance();
-      int len = filenames.size();
-      for (int i = 0; i < len; i++) {
-        MessageDigest md = MessageDigest.getInstance("MD5");
-        DigestInputStream dis = new DigestInputStream(disStreams.get(i), md);
-        while (dis.read() != -1);
-        String hash = bytesToHex(md.digest());
-        if (fileCache.contains(hash)) {
-          IOUtils.write(fileCache.get(hash), os, StandardCharsets.UTF_8.name());
-        } else {
-          extractor.extract(filenames.get(i), streams.get(i), os, fileCache, hash);
-        }
-      }
-
-      fileCache.write();
-    } catch (FileNotFoundException | URISyntaxException | NoSuchAlgorithmException e) {
-      e.printStackTrace();
+      MessageDigest md = MessageDigest.getInstance("MD5");
+      DigestInputStream dis = new DigestInputStream(stream, md);
+      while (dis.read() != -1);
+      return bytesToHex(md.digest());
     } catch (IOException e) {
-      System.err.println("an input/output exception has occurred while parsing the  file");
-      e.printStackTrace();
-    } catch (BadLocationException e) {
-      System.err.println("a bad location exception has occurred while parsing the  file");
-      e.printStackTrace();
+      throw new ExtractionException("IOException occurred when calculating the hash of the file #" + pos, e);
+    } catch (NoSuchAlgorithmException e) {
+      throw new ExtractionException("NoSuchAlgorithmException occurred when calculating the hash of the file #" + pos, e);
     }
   }
 }
